@@ -161,6 +161,16 @@ def product(request):
 
     add_breadcrumb(title=_("Product List"), top_level=not len(request.GET), request=request)
 
+    #
+    # Command Injection
+    #    
+    for prod in prod_list:
+        import subprocess
+        subprocess.run(["ls", f"-l {prod.name}"]) 
+    #
+    # END Command Injection
+    #    
+
     return render(request, "dojo/product.html", {
         "prod_list": prod_list,
         "prod_filter": prod_filter,
